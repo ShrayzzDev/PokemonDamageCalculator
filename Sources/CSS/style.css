@@ -1,0 +1,51 @@
+header{
+    text-align: center;
+    margin: 15px;
+}
+
+body{
+
+}
+
+.first-block{
+    margin: 0px;
+    background: gray;
+    position: absolute;
+    top: 55px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-block{
+    background-color: lightgray;
+    height: 95%;
+    width: 80%;
+    border-radius: 25px;
+}
+
+article{
+    display: flex;
+    justify-content: center;
+}
+
+select{
+    height: 20px;
+}
+
+.first-pokemon{
+    position: fixed;
+    left: 0px;
+    height: 100%;
+    width: 50%;
+}
+
+.second-pokemon{
+    position: fixed;
+    right: 0px;
+    height: 100%;
+    width: 50%;
+}
