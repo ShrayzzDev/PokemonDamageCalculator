@@ -32,7 +32,7 @@ try:
 					SP_Attack numeric(3,0) NOT NULL,
 					SP_Defense numeric(3,0) NOT NULL,
 					Special numeric(3,0), -- ONLY FOR GEN 1 POKEMON --
-					Speed numeric(3,0)
+					Speed numeric(3,0) NOT NULL
 					);''')
 
 	curs.execute('''CREATE TABLE Type(
