@@ -44,6 +44,18 @@ select{
     border: 5px;
 }
 
+div > section {
+    margin-top: 7px;
+}
+
+section > selct {
+    margin-top: 7px;
+}
+
+.EV {
+    margin-left: 7px;
+}
+
 .first-pokemon{
     position: fixed;
     left: 0px;

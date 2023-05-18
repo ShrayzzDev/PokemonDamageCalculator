@@ -80,6 +80,25 @@ df_pokemon['Att_Spe'] = list_att_spe
 df_pokemon['Def_Spe'] = list_def_spe
 df_pokemon['Vitesse'] = list_vitesse
 
+# List of special stats of pokemon in gen 1, ordered by pokedex number
+list_special = [65,80,100,50,65,85,50,65,85,20,
+				25,80,20,25,45,35,50,70,25,50,
+				31,61,40,65,50,90,30,55,40,55,
+				75,40,55,75,60,85,65,100,25,50,
+				40,75,75,85,100,55,80,40,90,45,
+				70,40,65,50,80,35,60,50,80,40,
+				50,70,105,120,135,35,50,65,70,85,
+				100,100,120,30,45,55,65,80,40,80,
+				95,120,58,35,60,70,95,40,65,45,
+				85,100,115,130,30,90,115,25,50,55,
+				80,60,125,40,50,35,35,60,60,85,
+				30,45,105,100,40,70,98,50,80,70,
+				100,100,55,95,85,85,55,70,20,100,
+				95,48,65,110,110,110,75,90,115,45,
+				70,60,65,125,125,125,80,70,100,154,100]
+
+df_pokemon['Special'] = list_special
+
 df_types_pokemon = pd.read_csv(r'./data/pokemon_types.csv')
 
 df_types_pokemon = df_types_pokemon.iloc[:218]
@@ -160,9 +179,9 @@ try:
 				(row.id,row.identifier,move_type,row.power,row.pp,row.accuracy))
 
 	for row in df_pokemon.itertuples():
-		curs.execute(''' INSERT INTO Pokemon (ID, Name, HP, Attack, Defense,  SP_Attack, SP_Defense, Speed)
-						VALUES (%s, %s,%s,%s,%s,%s,%s,%s);''',
-						(row.id, row.identifier, row.HP, row.Attaque, row.Defense, row.Att_Spe, row.Def_Spe, row.Vitesse))
+		curs.execute(''' INSERT INTO Pokemon (ID, Name, HP, Attack, Defense,  SP_Attack, SP_Defense, Special, Speed)
+						VALUES (%s, %s,%s,%s,%s,%s,%s,%s,%s);''',
+						(row.id, row.identifier, row.HP, row.Attaque, row.Defense, row.Att_Spe, row.Def_Spe, row.Special, row.Vitesse))
 		curs.execute(''' INSERT INTO PokemonType VALUES (%s,%s);''',
 						(row.id,row.Type_1))
 		if row.Type_2 != "Empty":
