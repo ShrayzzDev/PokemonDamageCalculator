@@ -17,8 +17,7 @@ try:
 
 	curs.execute('''DROP TABLE IF EXISTS PokemonMove''')
 	curs.execute('''DROP TABLE IF EXISTS Move''')
-	curs.execute('''DROP TABLE IF EXISTS TypeResistance;''')
-	curs.execute('''DROP TABLE IF EXISTS TypeWeakness;''')
+	curs.execute('''DROP TABLE IF EXISTS TypeEfficiency;''')
 	curs.execute('''DROP TABLE IF EXISTS PokemonType;''')
 	curs.execute('''DROP TABLE IF EXISTS Type;''')
 	curs.execute('''DROP TABLE IF EXISTS Pokemon;''')
@@ -36,7 +35,8 @@ try:
 					);''')
 
 	curs.execute('''CREATE TABLE Type(
-					Name varchar(20) PRIMARY KEY
+					Name varchar(20) PRIMARY KEY,
+					Typing varchar(4) CHECK ( Typing IN ('Phy','Spe','Null')) -- Used for gen 1,2,3. Null will be used only for fairy type, when implmented later --
 					);''')
 
 	curs.execute('''CREATE TABLE PokemonType(
@@ -44,14 +44,11 @@ try:
 					Type varchar(30) REFERENCES Type
 					);''')
 
-	curs.execute('''CREATE TABLE TypeWeakness(
-					TypeSuperEffective varchar(20) REFERENCES Type, -- Attack type --
-					TypeWeak varchar(20) REFERENCES Type -- Type that recieves, is weak to Type 1 --
-					);''')
-
-	curs.execute('''CREATE TABLE TypeResistance(
-					TypeNotVeryEffective varchar(20) REFERENCES Type, -- Attack Type -- 
-					TypeResistant varchar(10) REFERENCES Type -- Type that revieces, is resistant to Type 1 --
+	curs.execute('''CREATE TABLE TypeEfficiency(
+					damaging_type varchar(20) REFERENCES Type,
+					targeted_type varchar(20) REFERENCES Type,
+					damage_factor numeric(3) NOT NULL,
+					CHECK (damage_factor = 200 OR damage_factor = 50 OR damage_factor = 0 OR damage_factor = 100)
 					);''')
 
 	curs.execute('''CREATE TABLE Move(
@@ -65,7 +62,8 @@ try:
 
 	curs.execute('''CREATE TABLE PokemonMove(
 					Pokemon numeric(3,0) REFERENCES Pokemon,
-					Move numeric(3,0) REFERENCES Move
+					Move numeric(3,0) REFERENCES Move,
+					Learning_Level numeric(3,0) NOT NULL
 					);''')
 
 	co.commit ()
