@@ -6,6 +6,8 @@
     <title>Damage Calculator</title>
 </head>
 <body>
+<?php include 'php/database_handling.php';
+    $Liste_Pokemon = GetAllPokemonName();?>
     <header>
         <select>
             <option>Génération 1</option>
@@ -16,21 +18,31 @@
             <article class="first-pokemon">
                 <div>
                     <p>Choisissez le pokémon qui attaque</p>
-                    <select>
-                        <option>Bulbizarre</option>
-                        <option>Herbizarre</option>
-                        <option>Florizarre</option>
-                        <option>Salamèche</option>
-                        <option>Reptincel</option>
-                        <option>Dracaufeu</option>
-                        <option>Carapuce</option>
-                        <option>Carabaffe</option>
-                        <option>Tortank</option>
+                    <form method="POST" action="">
+                    <select name="damaging" ng-model="form.gender" onchange="this.form.submit()"">
+                        <?php
+                            $First_Option = "Select";
+                            if (ISSET($_POST["damaging"]))
+                            {
+                                $First_Option = $_POST["damaging"];
+                            }
+                            echo "<option value='' disabled selected>$First_Option</option>";
+                            for ($i = 0; $i < count($Liste_Pokemon); ++$i)
+                            {
+                                echo '<option value=' . $Liste_Pokemon[$i]["name"] . '>' . $Liste_Pokemon[$i]["name"] . "</option>";
+                            }
+                        ?>
                     </select>
+                    </form>
                     <div>
                         <section>
                             <label> HP : </label>
-                            <label> 100 </label>
+                            <?php
+                                if (ISSET($_POST["damaging"]))
+                                {
+                                    echo GetStat($_POST["damaging"],"HP");
+                                }
+                            ?>
                             <label for="IV_HP_OFF" class="EV"> IV :</label>
                             <input type="number" id="IV_HP_OFF" min="0" max="252">
                             <label for="EV_HP_OFF" class="EV"> EV :</label>
@@ -38,7 +50,12 @@
                         </section>
                         <section>
                             <label> Attack : </label>
-                            <label> 100</label>
+                            <?php
+                            if (ISSET($_POST["damaging"]))
+                            {
+                                echo GetStat($_POST["damaging"],"Attack");
+                            }
+                            ?>
                             <label for="IV_Att_OFF" class="EV"> IV :</label>
                             <input type="number" id="IV_Att_OFF" min="0" max="252">
                             <label for="EV_Att_OFF" class="EV"> EV :</label>
@@ -46,8 +63,12 @@
                         </section>
                         <section>
                             <label> Defense : </label>
-                            <label> 100</label>
-
+                            <?php
+                            if (ISSET($_POST["damaging"]))
+                            {
+                                echo GetStat($_POST["damaging"],"Defense");
+                            }
+                            ?>
                             <label for="IV_Def_OFF" class="EV"> IV :</label>
                             <input type="number" id="IV_Def_OFF" min="0" max="252">
                             <label for="EV_Def_OFF" class="EV"> EV :</label>
@@ -55,7 +76,12 @@
                         </section>
                         <section>
                             <label> Special : </label>
-                            <label> 100</label>
+                            <?php
+                            if (ISSET($_POST["damaging"]))
+                            {
+                                echo GetStat($_POST["damaging"],"Special");
+                            }
+                            ?>
                             <label for="IV_Spec_OFF" class="EV"> IV :</label>
                             <input type="number" id="IV_Spec_OFF" min="0" max="252">
                             <label for="EV_Spec_OFF" class="EV"> EV :</label>
@@ -63,7 +89,12 @@
                         </section>
                         <section>
                             <label> Speed : </label>
-                            <label> 100</label>
+                            <?php
+                            if (ISSET($_POST["damaging"]))
+                            {
+                                echo GetStat($_POST["damaging"],"Speed");
+                            }
+                            ?>
                             <label for="IV_Spe_OFF" class="EV"> IV :</label>
                             <input type="number" id="IV_Spe_OFF" min="0" max="252">
                             <label for="EV_Spe_OFF" class="EV"> EV :</label>
@@ -71,10 +102,11 @@
                         </section>
                         <section>
                             <br/>
+                            <label for="Niv">Niveau: </label>
+                            <input type ="number"  id="niv" min="1" max="100">
                             <label> Attaque à utiliser : </label>
                             <Select>
-                                <option> Attaque 1</option>
-                                <option> Attaque 2</option>
+
                             </Select>
                             <br/>
                             <br/>
@@ -95,16 +127,14 @@
             <article class="second-pokemon">
                 <div>
                     <p>Choisissez le pokémon qui subit</p>
-                    <select>
-                       <option>Bulbizarre</option>
-                        <option>Herbizarre</option>
-                        <option>Florizarre</option>
-                        <option>Salamèche</option>
-                        <option>Reptincel</option>
-                        <option>Dracaufeu</option>
-                        <option>Carapuce</option>
-                        <option>Carabaffe</option>
-                        <option>Tortank</option>
+                    <select name=target >
+                        <?php
+                        $Liste_Pokemon = GetAllPokemonName();
+                        for ($i = 0; $i < count($Liste_Pokemon); ++$i)
+                        {
+                            echo '<option value=' . $Liste_Pokemon[$i]["name"] . '>' . $Liste_Pokemon[$i]["name"] . "</option>";
+                        }
+                        ?>
                    </select>
                     <div>
                         <section>
