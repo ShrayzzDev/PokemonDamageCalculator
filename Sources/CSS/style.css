@@ -56,6 +56,10 @@ section > selct {
     margin-left: 7px;
 }
 
+.EV_Input {
+    width: 40px;
+}
+
 .first-pokemon{
     position: fixed;
     left: 0px;
