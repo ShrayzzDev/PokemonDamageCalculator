@@ -3,20 +3,16 @@
     function CalculateStat($Pokemon_Name,$Level,$EV,$IV,$Stat_Name): int
     {
         $Base = ((((GetStat($Pokemon_Name,$Stat_Name) + $IV) * 2 + (sqrt($EV)/4)) * $Level) / 100 );
-        switch($Stat_Name)
-        {
-            case "HP":
-                $Stat_Value = $Base + $Level + 10;
-                break;
-
-            default:
-                $Stat_Value = $Base + 5;
-        }
-        return $Stat_Value;
+        return (int) match ($Stat_Name) {
+            "HP" => $Base + $Level + 10,
+            default => $Base + 5,
+        };
     }
 
-    function CalculateDamage($Attacker_Name, $Attacker_Level, $Used_Move_Name, $IsCritical, $AttEv, $AttIv, $Receiver_Name, $Receiver_Level, $DefEV, $DefIV, $RollCoef): float
+    function CalculateDamage($Attacker_Name, $Attacker_Level, $Used_Move_Name, $IsCritical, $AttTyping, $AttEv, $AttIv, $Receiver_Name, $Receiver_Level, $DefTyping, $DefEV, $DefIV, $RollCoef): float
     {
+        $AttStat = CalculateStat($Attacker_Name, $Attacker_Level,$AttEv,$AttIv,$AttTyping);
+        $TargetDefStat = CalculateStat($Receiver_Name,$Receiver_Level,$DefEV,$DefIV,$DefTyping);
         $Receiver_Types = GetPokemonTypes($Receiver_Name);
         $STAB = 1;
         $EffiencyCoef = 1;
@@ -29,8 +25,9 @@
                 break;
             }
         }
-        foreach (GetPokemonTypes($Receiver_Name) as $Type)
+        foreach ($Receiver_Types as $Type)
         {
+            echo $Type . "\n";
             $EffiencyCoef *= GetTypeEfficiencyWithSecondType(GetMoveType($Used_Move_Name),$Type);
         }
         if ($IsCritical)
@@ -38,6 +35,6 @@
             $CritCoef *= 2;
         }
         $CoeffMult = $STAB * $EffiencyCoef * $RollCoef;
-        return (((($Attacker_Level*$CritCoef*0.4 + 2)*CalculateStat($Attacker_Name,$Attacker_Level,$AttEv,$AttIv,"Attack") * GetMovePower($Used_Move_Name)
-            / CalculateStat($Receiver_Name,$Receiver_Level,$DefEV,$DefIV,"Defense")) / 50) + 2) * $CoeffMult;
+        return (((($Attacker_Level*$CritCoef*0.4 + 2)*$AttStat * GetMovePower($Used_Move_Name))
+            / $TargetDefStat / 50) + 2) * $CoeffMult;
     }

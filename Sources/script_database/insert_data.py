@@ -7,41 +7,41 @@ import psycopg2 as psy
 def returnTypeStringFromId(type_id):
 	match type_id:
 		case 1:
-			return "Normal"
+			return "normal"
 		case 2:
-			return "Fighting"
+			return "fighting"
 		case 3:
-			return "Flying"
+			return "flying"
 		case 4:
-			return "Poison"
+			return "poison"
 		case 5:
-			return "Ground"
+			return "ground"
 		case 6:
-			return "Rock"
+			return "rock"
 		case 7:
-			return "Bug"
+			return "bug"
 		case 8:
-			return "Ghost"
+			return "ghost"
 		case 9:
-			return "Empty" # Steel doesn't exist in gen 1
+			return "empty" # Steel doesn't exist in gen 1
 		case 10:
-			return "Fire"
+			return "fire"
 		case 11:
-			return "Water"	
+			return "water"	
 		case 12:
-			return "Grass"
+			return "grass"
 		case 13:
-			return "Electric"
+			return "electric"
 		case 14:
-			return "Psychic"
+			return "psychic"
 		case 15:
-			return "Ice"
+			return "ice"
 		case 16:
-			return "Dragon"
+			return "dragon"
 		case 17:
-			return "Empty" #Dark pokemon don't exist in gen 1
+			return "empty" #Dark pokemon don't exist in gen 1
 		case 18: 
-			return "Normal" #Fairy pokemon, supposed to be normal in gen 1
+			return "normal" #Fairy pokemon, supposed to be normal in gen 1
 
 df_pokemon = pd.read_csv(r'data/pokemon.csv')
 
@@ -109,34 +109,34 @@ type_slot_two = []
 
 for row in df_types_pokemon.itertuples():
 	if last_slot == row.slot: #For pokemon with only one type
-		type_slot_two.append("Empty")
+		type_slot_two.append("empty")
 	if row.slot == 1:
 		type_slot_one.append(returnTypeStringFromId(row.type_id))
 		last_slot = 1
 	else :
 		type_slot_two.append(returnTypeStringFromId(row.type_id))
 		last_slot = 2
-type_slot_two.append("Empty") # For mew, mew only has one type but last, so finished to
+type_slot_two.append("empty") # For mew, mew only has one type but last, so finished to
 							  # Parse the df before it could put an empty
 
 df_pokemon['Type_1'] = type_slot_one
 df_pokemon['Type_2'] = type_slot_two
 
-types = {"Fire" : "Spe",
-		 "Water" : "Spe",
-		 "Grass" : "Spe",
-		 "Electric" : "Spe",
-		 "Psychic" : "Spe",
-		 "Ice" : "Spe",
-		 "Dragon" : "Spe",
-		 "Normal" : "Phy",
-		 "Flying" : "Phy",
-		 "Fighting" : "Phy",
-		 "Rock" : "Phy",
-		 "Poison" : "Phy",
-		 "Ground" : "Phy",
-		 "Bug" : "Phy",
-		 "Ghost" : "Phy"}
+types = {"fire" : "Spe",
+		 "water" : "Spe",
+		 "grass" : "Spe",
+		 "electric" : "Spe",
+		 "psychic" : "Spe",
+		 "ice" : "Spe",
+		 "dragon" : "Spe",
+		 "normal" : "Phy",
+		 "flying" : "Phy",
+		 "fighting" : "Phy",
+		 "rock" : "Phy",
+		 "poison" : "Phy",
+		 "ground" : "Phy",
+		 "bug" : "Phy",
+		 "ghost" : "Phy"}
 
 df_type_efficiency = pd.read_csv(r'data/type_efficacy.csv')
 
@@ -166,14 +166,14 @@ try:
 		if row.damage_type_id != 18 and row.target_type_id != 18:
 			damaging_type = returnTypeStringFromId(row.damage_type_id)
 			targeted_type = returnTypeStringFromId(row.target_type_id)
-			if damaging_type != "Empty" and targeted_type != "Empty":
+			if damaging_type != "empty" and targeted_type != "empty":
 				curs.execute(''' INSERT INTO TypeEfficiency VALUES (%s,%s,%s)''',
 					(damaging_type,targeted_type,row.damage_factor))
 
 	for row in df_moves.itertuples():
 		move_type = returnTypeStringFromId(row.type_id)
-		if move_type == "Empty":
-			move_type = "Normal"
+		if move_type == "empty":
+			move_type = "normal"
 		if row.generation_id == 1:
 			curs.execute(''' INSERT INTO Move VALUES (%s,%s,%s,%s,%s,%s)''',
 				(row.id,row.identifier,move_type,row.power,row.pp,row.accuracy))
@@ -184,7 +184,7 @@ try:
 						(row.id, row.identifier, row.HP, row.Attaque, row.Defense, row.Att_Spe, row.Def_Spe, row.Special, row.Vitesse))
 		curs.execute(''' INSERT INTO PokemonType VALUES (%s,%s);''',
 						(row.id,row.Type_1))
-		if row.Type_2 != "Empty":
+		if row.Type_2 != "empty":
 			curs.execute(''' INSERT INTO PokemonType VALUES (%s,%s);''',
 						(row.id,row.Type_2))
 
