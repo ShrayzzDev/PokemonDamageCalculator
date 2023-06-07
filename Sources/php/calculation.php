@@ -1,6 +1,6 @@
 <?php include 'database_handling.php';
 
-    function CalculateStat($Pokemon_Name,$Level,$EV,$IV,$Stat_Name): int
+    function CalculateStat(string & $Pokemon_Name,int $Level,int $EV, int $IV, string & $Stat_Name): int
     {
         $Base = ((((GetStat($Pokemon_Name,$Stat_Name) + $IV) * 2 + (sqrt($EV)/4)) * $Level) / 100 );
         return (int) match ($Stat_Name) {
@@ -9,7 +9,7 @@
         };
     }
 
-    function CalculateDamage($Attacker_Name, $Attacker_Level, $Used_Move_Name, $IsCritical, $AttTyping, $AttEv, $AttIv, $Receiver_Name, $Receiver_Level, $DefTyping, $DefEV, $DefIV, $RollCoef): int
+    function CalculateDamage(string & $Attacker_Name, int $Attacker_Level, string & $Used_Move_Name, bool $IsCritical, string $AttTyping, int $AttEv, int $AttIv, string & $Receiver_Name, int $Receiver_Level, string & $DefTyping, int $DefEV, int $DefIV, float $RollCoef): int
     {
         $AttStat = CalculateStat($Attacker_Name, $Attacker_Level,$AttEv,$AttIv,$AttTyping);
         $TargetDefStat = CalculateStat($Receiver_Name,$Receiver_Level,$DefEV,$DefIV,$DefTyping);
@@ -27,7 +27,8 @@
         }
         foreach ($Receiver_Types as $Type)
         {
-            $EffiencyCoef *= GetTypeEfficiencyWithSecondType(GetMoveType($Used_Move_Name),$Type["type"])/100;
+            $Move_Type = GetMoveType($Used_Move_Name);
+            $EffiencyCoef *= GetTypeEfficiencyWithSecondType($Move_Type,$Type["type"])/100;
         }
         if ($IsCritical)
         {

@@ -7,6 +7,9 @@
 </head>
 <body>
 <?php include 'php/calculation.php';
+$First_Option_Attacker = "Select";
+$First_Option_Target = "Select";
+$First_Option_Move = "Select";
 $Liste_Pokemon = GetAllPokemonName();
 $Pokemon_Movepool = GetAllMoveName();?>
 <header>
@@ -22,6 +25,11 @@ $Pokemon_Movepool = GetAllMoveName();?>
                     <p>Choisissez le pokémon qui attaque</p>
                     <select name="damaging">
                         <?php
+                        if (ISSET($_POST["damaging"]))
+                        {
+                            $First_Option_Attacker = $_POST["damaging"];
+                        }
+                        echo '<option disabled selected>' . $First_Option_Attacker . '</option>';
                         for ($i = 0; $i < count($Liste_Pokemon); ++$i)
                         {
                             echo '<option value=' . $Liste_Pokemon[$i]["name"] . '>' . $Liste_Pokemon[$i]["name"] . "</option>";
@@ -38,17 +46,20 @@ $Pokemon_Movepool = GetAllMoveName();?>
                             }
                             ?>
                             <label for="IV_HP_OFF" class="EV"> IV :</label>
-                            <input name="IV_HP_OFF" type="number" id="IV_HP_OFF" class="EV_Input" min="0" max="252" value=0>
+                            <input name="IV_HP_OFF" type="number" id="IV_HP_OFF" class="EV_Input" min="0" max="31" value=0>
                             <label for="EV_HP_OFF" class="EV"> EV :</label>
                             <input name="EV_HP_OFF" type="number" id="EV_HP_OFF" class="EV_Input" min="0" max="252" value=0>
                         </section>
                         <section>
                             <label> Attack : </label>
                             <?php
-
+                            if (ISSET($_POST["damaging"]))
+                            {
+                                echo GetStat($_POST["damaging"],"Attack");
+                            }
                             ?>
                             <label for="IV_Att_OFF" class="EV"> IV :</label>
-                            <input name="IV_Att_OFF" type="number" id="IV_Att_OFF" class="EV_Input" min="0" max="252" value=0>
+                            <input name="IV_Att_OFF" type="number" id="IV_Att_OFF" class="EV_Input" min="0" max="31" value=0>
                             <label for="EV_Att_OFF" class="EV"> EV :</label>
                             <input name="EV_Att_OFF" type="number" id="EV_Att_OFF" class="EV_Input" min="0" max="252" value=0>
                         </section>
@@ -62,7 +73,7 @@ $Pokemon_Movepool = GetAllMoveName();?>
                             }
                             ?>
                             <label for="IV_Def_OFF" class="EV"> IV :</label>
-                            <input name="IV_Def_OFF" type="number" id="IV_Def_OFF" class="EV_Input" min="0" max="252" value=0>
+                            <input name="IV_Def_OFF" type="number" id="IV_Def_OFF" class="EV_Input" min="0" max="31" value=0>
                             <label for="EV_Def_OFF" class="EV"> EV :</label>
                             <input name="EV_Def_OFF" type="number" id="EV_Def_OFF" class="EV_Input" min="0" max="252" value=0>
                         </section>
@@ -75,7 +86,7 @@ $Pokemon_Movepool = GetAllMoveName();?>
                             }
                             ?>
                             <label for="IV_Spec_OFF" class="EV"> IV :</label>
-                            <input name="IV_Spec_OFF" type="number" id="IV_Spec_OFF" class="EV_Input" min="0" max="252" value=0>
+                            <input name="IV_Spec_OFF" type="number" id="IV_Spec_OFF" class="EV_Input" min="0" max="31" value=0>
                             <label for="EV_Spec_OFF" class="EV"> EV :</label>
                             <input name="EV_Spec_OFF" type="number" id="EV_Spec_OFF" class="EV_Input" min="0" max="252" value=0>
                         </section>
@@ -88,7 +99,7 @@ $Pokemon_Movepool = GetAllMoveName();?>
                             }
                             ?>
                             <label for="IV_Spe_OFF" class="EV"> IV :</label>
-                            <input name="IV_Spe_OFF" type="number" id="IV_Spe_OFF" class="EV_Input" min="0" max="252" value=0>
+                            <input name="IV_Spe_OFF" type="number" id="IV_Spe_OFF" class="EV_Input" min="0" max="31" value=0>
                             <label for="EV_Spe_OFF" class="EV"> EV :</label>
                             <input name="EV_Spe_OFF" type="number" id="EV_Spe_OFF" class="EV_Input" min="0" max="252" value=0>
                         </section>
@@ -101,6 +112,11 @@ $Pokemon_Movepool = GetAllMoveName();?>
                             <label> Attaque à utiliser : </label>
                             <select name="move">
                                 <?php
+                                if (ISSET($_POST["move"]))
+                                {
+                                    $First_Option_Move = $_POST["move"];
+                                }
+                                echo '<option disabled selected>' . $First_Option_Move . '</option>';
                                 for ($k = 0; $k < count($Pokemon_Movepool); ++$k)
                                 {
                                     echo '<option value=' . $Pokemon_Movepool[$k]["name"] . '>' . $Pokemon_Movepool[$k]["name"] . "</option>";
@@ -116,6 +132,11 @@ $Pokemon_Movepool = GetAllMoveName();?>
                     <p>Choisissez le pokémon qui subit</p>
                     <select name="target">
                         <?php
+                        if (ISSET($_POST["target"]))
+                        {
+                            $First_Option_Target = $_POST["target"];
+                        }
+                        echo '<option disabled selected>' . $First_Option_Target . '</option>';
                         for ($j = 0; $j < count($Liste_Pokemon); ++$j)
                         {
                             echo '<option value=' . $Liste_Pokemon[$j]["name"] . '>' . $Liste_Pokemon[$j]["name"] . "</option>";
@@ -132,7 +153,7 @@ $Pokemon_Movepool = GetAllMoveName();?>
                             }
                             ?>
                             <label for="IV_HP_SUB" class="EV"> IV :</label>
-                            <input name="IV_HP_SUB" type="number" id="IV_HP_SUB" class="EV_Input" min="0" max="252" value=0>
+                            <input name="IV_HP_SUB" type="number" id="IV_HP_SUB" class="EV_Input" min="0" max="31" value=0>
                             <label for="EV_HP_SUB" class="EV"> EV :</label>
                             <input name="EV_HP_SUB" type="number" id="EV_HP_SUB" class="EV_Input" min="0" max="252" value=0>
                         </section>
@@ -145,7 +166,7 @@ $Pokemon_Movepool = GetAllMoveName();?>
                             }
                             ?>
                             <label for="IV_Att_SUB" class="EV"> IV :</label>
-                            <input name="IV_Att_SUB" type="number" id="IV_Att_SUB" class="EV_Input" min="0" max="252" value=0>
+                            <input name="IV_Att_SUB" type="number" id="IV_Att_SUB" class="EV_Input" min="0" max="31" value=0>
                             <label for="EV_Att_OFF" class="EV"> EV :</label>
                             <input name="EV_Att_SUB" type="number" id="EV_Att_SUB" class="EV_Input" min="0" max="252" value=0>
                         </section>
@@ -158,7 +179,7 @@ $Pokemon_Movepool = GetAllMoveName();?>
                             }
                             ?>
                             <label for="IV_Def_SUB" class="IV"> EV :</label>
-                            <input name="IV_Def_SUB" type="number" id="IV_Def_SUB" class="EV_Input" min="0" max="252" value=0>
+                            <input name="IV_Def_SUB" type="number" id="IV_Def_SUB" class="EV_Input" min="0" max="31" value=0>
                             <label for="EV_Def_SUB" class="EV"> EV :</label>
                             <input name="EV_Def_SUB" type="number" id="EV_Def_SUB" class="EV_Input" min="0" max="252" value=0>
                         </section>
@@ -171,7 +192,7 @@ $Pokemon_Movepool = GetAllMoveName();?>
                             }
                             ?>
                             <label for="IV_Spec_SUB" class="EV"> IV :</label>
-                            <input name="IV_Spec_SUB" type="number" id="IV_Spec_SUB" class="EV_Input" min="0" max="252" value=0>
+                            <input name="IV_Spec_SUB" type="number" id="IV_Spec_SUB" class="EV_Input" min="0" max="31" value=0>
                             <label for="EV_Spec_SUB" class="EV"> EV :</label>
                             <input name="EV_Spec_SUB" type="number" id="EV_Spec_SUB" class="EV_Input" min="0" max="252" value=0>
                         </section>
@@ -184,7 +205,7 @@ $Pokemon_Movepool = GetAllMoveName();?>
                             }
                             ?>
                             <label for="IV_Spe_SUB" class="EV"> IV :</label>
-                            <input name="IV_Spe_SUB" type="number" id="IV_Spe_SUB" class="EV_Input" min="0" max="252" value=0>
+                            <input name="IV_Spe_SUB" type="number" id="IV_Spe_SUB" class="EV_Input" min="0" max="31" value=0>
                             <label for="EV_Spe_SUB" class="EV"> EV :</label>
                             <input name="EV_Spe_SUB" type="number" id="EV_Spe_SUB" class="EV_Input" min="0" max="252" value=0>
                         </section>
@@ -194,7 +215,9 @@ $Pokemon_Movepool = GetAllMoveName();?>
                         <label for="NivTarget">Niveau: </label>
                         <input type ="number"  name="NivTarget" id="NivTarget" min="1" max="100" value=1>
                         <br/>
+                        <br/>
                         <input type="submit">
+                        <br/>
                         <br/>
                         <label> Dégats de l'attaque: </label>
                         <?php

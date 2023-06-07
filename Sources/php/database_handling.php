@@ -15,7 +15,7 @@
         return pg_fetch_all($result);
     }
 
-    function GetStat($Pokemon_Name,$Stat_Name)
+    function GetStat(string & $Pokemon_Name, string $Stat_Name)
     {
         $con = ConnectToDatabase();
         $query = match ($Stat_Name) {
@@ -30,7 +30,7 @@
         return pg_fetch_result($result, 0, 0);
     }
 
-    function GetPokemonTypes($Pokemon_Name)
+    function GetPokemonTypes(string & $Pokemon_Name)
     {
         $con = ConnectToDatabase();
         $query = "SELECT pt.Type type FROM Pokemon po, PokemonType pt WHERE pt.Pokemon = po.ID AND po.Name = $1";
@@ -51,7 +51,7 @@
         return pg_fetch_all($result);
     }
 
-    function GetMoveType($Move_Name)
+    function GetMoveType(string & $Move_Name)
     {
         $con = ConnectToDatabase();
         $query = "SELECT Type FROM Move WHERE Name = $1";
@@ -60,7 +60,7 @@
     }
 
     // NOTE : Should handle typing with enums
-    function GetTypeTyping($Type_Name)
+    function GetTypeTyping(string & $Type_Name)
     {
         $con = ConnectToDatabase();
         $query = "SELECT Typing FROM Type WHERE Name = $1";
@@ -68,12 +68,13 @@
         return pg_fetch_result($result,0,0);
     }
 
-    function GetMoveTyping($Move_Name): false|string|null
+    function GetMoveTyping(string & $Move_Name): false|string|null
     {
-        return GetTypeTyping(GetMoveType($Move_Name));
+        $Move_Type = GetMoveType($Move_Name);
+        return GetTypeTyping($Move_Type);
     }
 
-    function GetTypeEfficiency($Type_Name,$Efficiency)
+    function GetTypeEfficiency(string & $Type_Name, string & $Efficiency)
     {
         $con = ConnectToDatabase();
         switch ($Efficiency)
@@ -103,7 +104,7 @@
         return pg_fetch_array($result);
     }
 
-    function GetMovePower($Move_Name)
+    function GetMovePower(string & $Move_Name)
     {
         $con = ConnectToDatabase();
         $query = "SELECT Power FROM Move WHERE Name = $1";
@@ -111,7 +112,7 @@
         return pg_fetch_result($result, 0, 0);
     }
 
-    function GetTypeEfficiencyWithSecondType($TypeAtt, $TypeReceiver)
+    function GetTypeEfficiencyWithSecondType(string & $TypeAtt, string & $TypeReceiver)
     {
         $con = ConnectToDatabase();
         $query = "SELECT damage_factor FROM TypeEfficiency WHERE damaging_type = $1 AND targeted_type = $2";
