@@ -7,7 +7,6 @@
 </head>
 <body>
 <?php include 'php/calculation.php';
-$First_Option = "Select";
 $Liste_Pokemon = GetAllPokemonName();
 $Pokemon_Movepool = GetAllMoveName();?>
 <header>
@@ -23,7 +22,6 @@ $Pokemon_Movepool = GetAllMoveName();?>
                     <p>Choisissez le pokémon qui attaque</p>
                     <select name="damaging">
                         <?php
-                        echo "<option value='' disabled selected>$First_Option</option>";
                         for ($i = 0; $i < count($Liste_Pokemon); ++$i)
                         {
                             echo '<option value=' . $Liste_Pokemon[$i]["name"] . '>' . $Liste_Pokemon[$i]["name"] . "</option>";
@@ -118,7 +116,6 @@ $Pokemon_Movepool = GetAllMoveName();?>
                     <p>Choisissez le pokémon qui subit</p>
                     <select name="target">
                         <?php
-                        echo "<option value='' disabled selected>$First_Option</option>";
                         for ($j = 0; $j < count($Liste_Pokemon); ++$j)
                         {
                             echo '<option value=' . $Liste_Pokemon[$j]["name"] . '>' . $Liste_Pokemon[$j]["name"] . "</option>";
@@ -198,6 +195,7 @@ $Pokemon_Movepool = GetAllMoveName();?>
                         <input type ="number"  name="NivTarget" id="NivTarget" min="1" max="100" value=1>
                         <br/>
                         <input type="submit">
+                        <br/>
                         <label> Dégats de l'attaque: </label>
                         <?php
                         if (ISSET($_POST["damaging"]) && ISSET($_POST["target"]))
@@ -225,8 +223,9 @@ $Pokemon_Movepool = GetAllMoveName();?>
                             {
                                 $MoveAttStat = 0;
                             }
-                            echo "Min: " . CalculateDamage($_POST["damaging"], $_POST["Level_Attacker"], $_POST["move"],False, $MoveAttStat, $AttEv, $AttIv, $_POST["target"],$_POST["NivTarget"],$MoveDefStat,$DefEv,$DefIv,0.8);
-                            echo "Max: " . CalculateDamage($_POST["damaging"], $_POST["Level_Attacker"], $_POST["move"],False, $MoveAttStat, $AttEv, $AttIv, $_POST["target"],$_POST["NivTarget"],$MoveDefStat,$DefEv,$DefIv,1);
+                            echo "<br/>";
+                            echo "Min: " . CalculateDamage($_POST["damaging"], $_POST["Level_Attacker"], $_POST["move"],False, $MoveAttStat, $AttEv, $AttIv, $_POST["target"],$_POST["NivTarget"],$MoveDefStat,$DefEv,$DefIv,0.8) . "<br/>";
+                            echo "Max: " . CalculateDamage($_POST["damaging"], $_POST["Level_Attacker"], $_POST["move"],False, $MoveAttStat, $AttEv, $AttIv, $_POST["target"],$_POST["NivTarget"],$MoveDefStat,$DefEv,$DefIv,1) . "<br/>";
                         }
                         ?>
                     </section>

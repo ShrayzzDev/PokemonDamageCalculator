@@ -9,7 +9,7 @@
         };
     }
 
-    function CalculateDamage($Attacker_Name, $Attacker_Level, $Used_Move_Name, $IsCritical, $AttTyping, $AttEv, $AttIv, $Receiver_Name, $Receiver_Level, $DefTyping, $DefEV, $DefIV, $RollCoef): float
+    function CalculateDamage($Attacker_Name, $Attacker_Level, $Used_Move_Name, $IsCritical, $AttTyping, $AttEv, $AttIv, $Receiver_Name, $Receiver_Level, $DefTyping, $DefEV, $DefIV, $RollCoef): int
     {
         $AttStat = CalculateStat($Attacker_Name, $Attacker_Level,$AttEv,$AttIv,$AttTyping);
         $TargetDefStat = CalculateStat($Receiver_Name,$Receiver_Level,$DefEV,$DefIV,$DefTyping);
@@ -19,7 +19,7 @@
         $CritCoef = 1;
         foreach (GetPokemonTypes($Attacker_Name) as $Type)
         {
-            if (GetMoveType($Used_Move_Name) == $Type)
+            if (GetMoveType($Used_Move_Name) == $Type["type"])
             {
                 $STAB = 1.5;
                 break;
@@ -27,14 +27,15 @@
         }
         foreach ($Receiver_Types as $Type)
         {
-            echo $Type . "\n";
-            $EffiencyCoef *= GetTypeEfficiencyWithSecondType(GetMoveType($Used_Move_Name),$Type);
+            $EffiencyCoef *= GetTypeEfficiencyWithSecondType(GetMoveType($Used_Move_Name),$Type["type"])/100;
         }
         if ($IsCritical)
         {
             $CritCoef *= 2;
         }
         $CoeffMult = $STAB * $EffiencyCoef * $RollCoef;
-        return (((($Attacker_Level*$CritCoef*0.4 + 2)*$AttStat * GetMovePower($Used_Move_Name))
-            / $TargetDefStat / 50) + 2) * $CoeffMult;
+        echo "CoefMult: " . $CoeffMult . "<br/>";
+        echo "Stab: " . $STAB . "<br/>";
+        error_reporting(E_ALL ^ E_DEPRECATED);
+        return (int) (((($Attacker_Level*$CritCoef*0.4 + 2)*$AttStat * GetMovePower($Used_Move_Name)) / $TargetDefStat / 50) + 2) * $CoeffMult;
     }

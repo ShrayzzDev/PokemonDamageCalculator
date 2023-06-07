@@ -35,7 +35,7 @@
         $con = ConnectToDatabase();
         $query = "SELECT pt.Type type FROM Pokemon po, PokemonType pt WHERE pt.Pokemon = po.ID AND po.Name = $1";
         $result = pg_query_params($con, $query, array($Pokemon_Name)) or die('échec de la requête:' . pg_last_error());
-        return pg_fetch_array($result);
+        return pg_fetch_all($result);
     }
 
     function GetPokemonMovePool($Pokemon_Name,$Pokemon_Level)
@@ -100,7 +100,7 @@
 
         }
         $result = pg_query_params($con, $query, array($Type_Name)) or die('échec de la requête:' . pg_last_error());
-        return pg_fetch_all($result);
+        return pg_fetch_array($result);
     }
 
     function GetMovePower($Move_Name)
