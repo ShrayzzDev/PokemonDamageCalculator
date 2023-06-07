@@ -34,8 +34,6 @@
             $CritCoef *= 2;
         }
         $CoeffMult = $STAB * $EffiencyCoef * $RollCoef;
-        echo "CoefMult: " . $CoeffMult . "<br/>";
-        echo "Stab: " . $STAB . "<br/>";
         error_reporting(E_ALL ^ E_DEPRECATED);
         return (int) (((($Attacker_Level*$CritCoef*0.4 + 2)*$AttStat * GetMovePower($Used_Move_Name)) / $TargetDefStat / 50) + 2) * $CoeffMult;
     }
